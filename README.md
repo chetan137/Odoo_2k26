@@ -1,203 +1,126 @@
-# 🔐 Full-Stack Authentication System
+# 🚛 FleetOS — Multi-Role Fleet Management System
 
-A complete, production-ready authentication system built with **React.js + Node.js/Express + PostgreSQL (Supabase/Neon)**.
-
----
-
-## 📁 Folder Structure
-
-```
-ODOO_HACK2/
-├── backend/                        # Node.js + Express API (MVC)
-│   ├── config/
-│   │   ├── db.js                   # PostgreSQL pool connection
-│   │   └── initDB.js               # Auto-create tables on startup
-│   ├── controllers/
-│   │   └── authController.js       # Signup, Login, Logout, Forgot/Reset Password
-│   ├── middleware/
-│   │   ├── authMiddleware.js        # JWT verify (cookie + Bearer header)
-│   │   └── validationMiddleware.js  # express-validator error handler
-│   ├── models/
-│   │   └── userModel.js            # All DB queries for users table
-│   ├── routes/
-│   │   └── authRoutes.js           # REST API routes
-│   ├── utils/
-│   │   ├── emailService.js         # Nodemailer reset-password email
-│   │   ├── jwtHelper.js            # Generate / verify / set cookie
-│   │   └── passwordValidator.js    # Password strength rules
-│   ├── .env                        # ← Fill in your secrets here
-│   ├── .env.example                # Template for .env
-│   ├── server.js                   # Express app entry point
-│   └── package.json
-│
-└── frontend/                       # React.js + Vite SPA
-    ├── src/
-    │   ├── components/
-    │   │   ├── ProtectedRoute.jsx  # Redirects unauthenticated → /login
-    │   │   └── GuestRoute.jsx      # Redirects authenticated → /dashboard
-    │   ├── context/
-    │   │   └── AuthContext.jsx     # Global auth state + session check
-    │   ├── pages/
-    │   │   ├── LoginPage.jsx       # Email/password login
-    │   │   ├── SignupPage.jsx      # Registration with live validation
-    │   │   ├── ForgotPasswordPage.jsx
-    │   │   ├── ResetPasswordPage.jsx
-    │   │   └── DashboardPage.jsx   # Protected user dashboard
-    │   ├── services/
-    │   │   └── api.js              # Axios instance + all API calls
-    │   ├── utils/
-    │   │   └── validators.js       # Frontend password validation helpers
-    │   ├── App.jsx                 # React Router v6 routing
-    │   ├── main.jsx                # Entry point
-    │   └── index.css               # Complete design system (dark theme)
-    ├── index.html
-    ├── vite.config.js              # Dev proxy → backend :5000
-    └── package.json
-```
+A production-ready Fleet Management and Authentication system built with **React.js + Node.js (MVC) + PostgreSQL (Prisma)**. Developed for **Odoo Hack 2k26**.
 
 ---
 
-## ⚡ REST API Reference
+## 🌟 Key Features
 
-| Method | Endpoint                    | Auth     | Description                     |
-|--------|-----------------------------|----------|---------------------------------|
-| POST   | `/api/auth/signup`          | Public   | Register a new user             |
-| POST   | `/api/auth/login`           | Public   | Login and receive JWT cookie    |
-| POST   | `/api/auth/logout`          | 🔒 JWT   | Clear auth cookie               |
-| GET    | `/api/auth/me`              | 🔒 JWT   | Get current user info           |
-| POST   | `/api/auth/forgot-password` | Public   | Send password reset email       |
-| POST   | `/api/auth/reset-password`  | Public   | Reset password via token        |
-| GET    | `/api/health`               | Public   | Server health check             |
+### 👤 Role-Based Access Control (RBAC)
+- **Separate Dashboards**: Dedicated UI experiences for **Admin, Manager, Dispatcher, and Driver**.
+- **Role Security**: Middleware-enforced route protection using `allowedRoles`.
+- **Session Management**: Secure JWT authentication stored in HTTP-only cookies.
 
----
+### 🚗 Driver Module
+- **Public Registration**: Comprehensive onboarding form for drivers.
+- **Auto-IDs**: Automatic generation of unique IDs (`EMP-XXXX` for staff, `DRV-XXXX` for drivers).
+- **Approval Workflow**: Integrated admin portal for reviewing and approving driver applications.
+- **Identity Privacy**: Driver authentication uses a separate JWT secret from internal staff.
 
-## 🚀 Quick Start
+### 📎 Cloudinary Integration
+- **Dynamic Uploads**: Secure handling of driver license documents (JPG, PNG, PDF).
+- **Validation**: Server-side file type and size (<5MB) verification.
 
-### 1 — Get a PostgreSQL Database
-
-Choose **one** of these free options:
-
-- **[Supabase](https://supabase.com)** → Create project → Settings → Database → copy **Connection String**
-- **[Neon](https://neon.tech)** → Create project → copy **Connection String**
-
----
-
-### 2 — Configure the Backend
-
-```bash
-cd backend
-```
-
-Edit **`.env`** and fill in your values:
-
-```env
-DATABASE_URL=postgresql://user:pass@host:5432/dbname   # From Supabase/Neon
-JWT_SECRET=your_super_long_random_secret_here
-RESET_TOKEN_EXPIRY_MINUTES=15
-PORT=5000
-FRONTEND_URL=http://localhost:5173
-
-# Gmail SMTP (enable 2FA → App Passwords in Google Account)
-EMAIL_HOST=smtp.gmail.com
-EMAIL_PORT=587
-EMAIL_USER=your_gmail@gmail.com
-EMAIL_PASS=xxxx_xxxx_xxxx_xxxx       # 16-char App Password (NOT your real password)
-EMAIL_FROM=Auth System <your_gmail@gmail.com>
-
-COOKIE_SECRET=another_long_random_secret
-```
-
-> 💡 **Gmail App Password:** Google Account → Security → 2-Step Verification → App Passwords
-
----
-
-### 3 — Run the Backend
-
-```bash
-cd backend
-npm run dev          # starts on http://localhost:5000
-```
-
-The database table (`users`) is **auto-created** on first startup — no manual SQL required.
-
----
-
-### 4 — Run the Frontend
-
-```bash
-cd frontend
-npm run dev          # starts on http://localhost:5173
-```
-
-Open **http://localhost:5173** in your browser.
-
----
-
-## 🔒 Security Features
-
-| Feature | Implementation |
-|---------|---------------|
-| Password hashing | `bcryptjs` with 12 salt rounds |
-| JWT storage | HTTP-only cookie (XSS-safe) |
-| CORS | Restricted to `FRONTEND_URL` with `credentials: true` |
-| Rate limiting | 20 req / 15 min per IP on all `/api/auth/*` routes |
-| Helmet | Security HTTP headers |
-| Reset token | SHA-256 hashed before DB storage, expires in 15 min |
-| Input sanitization | `express-validator` on every route |
-| Duplicate email | Checked before user creation (`409 Conflict`) |
-
----
-
-## ✅ Validation Rules
-
-### Sign Up
-| Field | Rule |
-|-------|------|
-| Name | Required, 2–100 chars |
-| Email | Valid format, unique in DB |
-| Password | >8 chars, 1 uppercase, 1 lowercase, 1 special char |
-| Confirm Password | Must exactly match Password |
-
-### Login
-| Scenario | Error Returned |
-|----------|---------------|
-| Email not found | `"Account does not exist."` |
-| Wrong password | `"Invalid Password."` |
-
----
-
-## 🗄️ Database Schema
-
-```sql
-CREATE TABLE IF NOT EXISTS users (
-  id                SERIAL PRIMARY KEY,
-  name              VARCHAR(100) NOT NULL,
-  email             VARCHAR(255) UNIQUE NOT NULL,
-  password          VARCHAR(255) NOT NULL,         -- bcrypt hash
-  is_verified       BOOLEAN DEFAULT FALSE,
-  reset_token       VARCHAR(255),                  -- SHA-256 of the emailed token
-  reset_token_expiry TIMESTAMPTZ,
-  created_at        TIMESTAMPTZ DEFAULT NOW(),
-  updated_at        TIMESTAMPTZ DEFAULT NOW()
-);
-```
-
----
-
-## 🎨 Frontend Pages
-
-| Route | Page | Access |
-|-------|------|--------|
-| `/login` | Sign In | Guest only |
-| `/signup` | Create Account | Guest only |
-| `/forgot-password` | Forgot Password | Guest only |
-| `/reset-password?token=...` | Reset Password | Guest only |
-| `/dashboard` | User Dashboard | 🔒 Authenticated |
+### 🗺️ Fleet & Trips
+- **Relational Schema**: Prisma-powered connection between Drivers and Trips.
+- **Real-time Status**: Tracking of driver availability (`AVAILABLE`, `ON_TRIP`, `INACTIVE`).
 
 ---
 
 ## 🛠 Tech Stack
 
-**Backend:** Node.js · Express · PostgreSQL (`pg`) · bcryptjs · jsonwebtoken · Nodemailer · express-validator · helmet · express-rate-limit · cookie-parser
+- **Frontend**: React 18, Vite, React Router v6, Axios, Lucide Icons, Vanilla CSS (Premium Dark Theme).
+- **Backend**: Node.js, Express, Prisma ORM, PostgreSQL.
+- **Auth**: JWT (Separate for Staff/Drivers), Bcrypt.js.
+- **Storage**: Cloudinary API (Document Storage).
+- **Email**: Brevo API (Transactional Emails).
 
-**Frontend:** React 18 · Vite · React Router v6 · Axios · react-hot-toast · Inter font (Google Fonts)
+---
+
+## 🚀 Local Setup
+
+### 1. Prerequisites
+- Node.js (v18+)
+- PostgreSQL Database (Railway, Supabase, or Local)
+
+### 2. Backend Configuration
+1. Navigate to `backend` folder and create `.env`:
+   ```bash
+   cd backend
+   cp .env.example .env
+   ```
+2. Fill in your environment variables:
+   - `DATABASE_URL`: Your PostgreSQL connection string.
+   - `JWT_SECRET`: Random string for staff auth.
+   - `DRIVER_JWT_SECRET`: Random string for driver auth.
+   - `CLOUDINARY_URL`: From your Cloudinary Dashboard.
+
+3. Install dependencies and push schema:
+   ```bash
+   npm install
+   npx prisma db push
+   ```
+
+4. Start Backend:
+   ```bash
+   npm run dev
+   ```
+
+### 3. Frontend Configuration
+1. Navigate to `frontend` folder:
+   ```bash
+   cd frontend
+   npm install
+   ```
+2. Start Frontend:
+   ```bash
+   npm run dev
+   ```
+   Open [http://localhost:5173](http://localhost:5173).
+
+---
+
+## 📂 Project Structure
+
+```text
+├── backend/
+│   ├── prisma/             # Database Schema
+│   ├── config/             # DB & Cloudinary Configuration
+│   ├── controllers/        # Business Logic (Auth, Admin, Driver)
+│   ├── middleware/         # Auth & RBAC Guards
+│   ├── models/             # Data Interaction Layer
+│   └── routes/             # API Endpoints
+└── frontend/
+    ├── src/
+    │   ├── components/     # Reusable UI & Route Guards
+    │   ├── context/        # Global Auth State
+    │   ├── pages/          # Dashboards & Auth views
+    │   └── services/       # API Axios Instance
+```
+
+---
+
+## 🤝 How to Contribute
+
+To sync your work with the official repository:
+
+### 1. Initialize & Connect
+```bash
+git init
+git remote add origin https://github.com/chetan137/Odoo_2k26.git
+```
+
+### 2. Commit Progress
+```bash
+git add .
+git commit -m "feat: implement multi-role RBAC and driver module"
+```
+
+### 3. Push to GitHub
+```bash
+git branch -M main
+git push -u origin main
+```
+
+---
+*Created for Odoo Hack 2k26 by Chetan & Team.*
