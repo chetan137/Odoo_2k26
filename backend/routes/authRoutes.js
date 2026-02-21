@@ -33,7 +33,7 @@ const loginValidators = [
     .notEmpty().withMessage('Password is required.'),
   body('role')
     .notEmpty().withMessage('Please select your role.')
-    .isIn(['MANAGER', 'DISPATCHER']).withMessage('Invalid role selected.'),
+    .isIn(['MANAGER', 'DISPATCHER', 'ADMIN']).withMessage('Invalid role selected.'),
 ];
 
 // ─── Routes ───────────────────────────────────────────────────────────────────
