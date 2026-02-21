@@ -2152,3 +2152,669 @@ body {
   padding: 10px 14px;
   margin: 8px 0;
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   VEHICLE REGISTRY — Page 3
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+/* ── Layout ───────────────────────────────────────────────────────────────────── */
+.veh-layout {
+  display: flex;
+  gap: 28px;
+  align-items: flex-start;
+}
+.veh-layout-left {
+  flex: 0 0 340px;
+  position: sticky;
+  top: 24px;
+}
+.veh-layout-right {
+  flex: 1;
+  min-width: 0;
+}
+.veh-layout-full {
+  flex: 1;
+  min-width: 0;
+}
+
+@media (max-width: 1100px) {
+  .veh-layout { flex-direction: column; }
+  .veh-layout-left { flex: unset; width: 100%; position: static; }
+}
+
+/* ── Form card ────────────────────────────────────────────────────────────────── */
+.veh-form-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 24px;
+}
+.veh-form-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.veh-form-title-icon {
+  font-size: 18px;
+}
+.veh-form .form-group { margin-bottom: 14px; }
+
+/* ── Table card ───────────────────────────────────────────────────────────────── */
+.veh-table-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 24px;
+}
+
+/* ── Stats row ────────────────────────────────────────────────────────────────── */
+.veh-stats-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.veh-stat-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+.veh-stat-chip strong { font-weight: 700; }
+
+/* ── Filters ──────────────────────────────────────────────────────────────────── */
+.veh-filters {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.veh-search-wrap {
+  flex: 1;
+  position: relative;
+}
+.veh-search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  pointer-events: none;
+}
+.veh-search-input {
+  padding-left: 38px !important;
+}
+.veh-type-filter {
+  flex: 0 0 180px;
+}
+
+@media (max-width: 640px) {
+  .veh-filters { flex-direction: column; }
+  .veh-type-filter { flex: unset; width: 100%; }
+}
+
+/* ── Table ────────────────────────────────────────────────────────────────────── */
+.veh-table-wrapper {
+  overflow-x: auto;
+}
+.veh-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.veh-table th {
+  text-align: left;
+  padding: 10px 14px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border-color);
+  white-space: nowrap;
+}
+.veh-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+.veh-table tbody tr {
+  transition: background 0.15s ease;
+}
+.veh-table tbody tr:hover {
+  background: rgba(255,255,255,0.03);
+}
+.veh-row-retired {
+  opacity: 0.5;
+}
+.veh-plate-cell {
+  font-weight: 700;
+  color: var(--text-primary) !important;
+  font-family: 'JetBrains Mono', monospace, 'Inter';
+  letter-spacing: 0.5px;
+}
+
+/* ── Status badge ─────────────────────────────────────────────────────────────── */
+.veh-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  white-space: nowrap;
+}
+
+/* ── Small buttons ────────────────────────────────────────────────────────────── */
+.btn-sm {
+  font-size: 12px;
+  padding: 5px 14px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  border: none;
+  font-weight: 600;
+  transition: var(--transition);
+}
+.btn-danger-outline {
+  background: transparent;
+  border: 1px solid rgba(239,68,68,0.4);
+  color: #ef4444;
+}
+.btn-danger-outline:hover {
+  background: rgba(239,68,68,0.12);
+}
+.btn-danger {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: white;
+  border: none;
+  padding: 10px 22px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 14px;
+  transition: var(--transition);
+}
+.btn-danger:hover {
+  filter: brightness(1.1);
+}
+.btn-danger:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.btn-secondary {
+  background: var(--bg-input);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  padding: 10px 22px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 14px;
+  transition: var(--transition);
+}
+.btn-secondary:hover {
+  background: var(--bg-input-focus);
+  color: var(--text-primary);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   TRIP DISPATCH — Page 4
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+/* ── Create overlay ──────────────────────────────────────────────────────────── */
+.dsp-create-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.dsp-create-panel {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  width: 100%;
+  max-width: 580px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.5);
+}
+
+/* Top bar */
+.dsp-create-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border-color);
+}
+.dsp-back-btn {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 14px;
+  cursor: pointer;
+  font-family: inherit;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: var(--transition);
+}
+.dsp-back-btn:hover { color: var(--text-primary); background: var(--bg-input-focus); }
+.dsp-create-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.dsp-step-indicator {
+  font-size: 12px;
+  color: var(--text-muted);
+  background: rgba(255,255,255,0.06);
+  padding: 4px 10px;
+  border-radius: 99px;
+}
+
+/* Progress dots */
+.dsp-progress {
+  display: flex;
+  gap: 6px;
+  padding: 12px 20px;
+  justify-content: center;
+}
+.dsp-progress-dot {
+  width: 32px;
+  height: 4px;
+  border-radius: 99px;
+  background: rgba(255,255,255,0.08);
+  transition: background 0.3s;
+}
+.dsp-progress-active { background: var(--color-primary); }
+
+/* Content area */
+.dsp-create-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+/* Footer */
+.dsp-create-footer {
+  padding: 16px 20px;
+  border-top: 1px solid var(--border-color);
+}
+.dsp-proceed-btn {
+  width: 100%;
+  padding: 14px;
+  font-size: 15px;
+  font-weight: 700;
+  border-radius: var(--radius-md);
+}
+
+/* ── Step headers ────────────────────────────────────────────────────────────── */
+.dsp-step-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.dsp-step-icon { font-size: 28px; }
+.dsp-step-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.dsp-step-sub {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* ── Groups ──────────────────────────────────────────────────────────────────── */
+.dsp-group { margin-bottom: 20px; }
+.dsp-group-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+  padding-left: 4px;
+}
+
+/* ── Vehicle Card (Porter style) ────────────────────────────────────────────── */
+.dsp-vcard {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: var(--transition);
+  margin-bottom: 8px;
+}
+.dsp-vcard:hover {
+  border-color: var(--color-primary);
+  background: rgba(99,102,241,0.04);
+}
+.dsp-vcard-selected {
+  border-color: var(--color-primary) !important;
+  background: rgba(99,102,241,0.08) !important;
+  box-shadow: 0 0 0 2px rgba(99,102,241,0.25);
+}
+
+.dsp-vcard-icon {
+  font-size: 24px;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(99,102,241,0.08);
+  border-radius: var(--radius-sm);
+  flex-shrink: 0;
+}
+.dsp-vcard-body { flex: 1; min-width: 0; }
+.dsp-vcard-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.dsp-vcard-info-btn {
+  background: none;
+  border: none;
+  font-size: 13px;
+  color: var(--color-primary);
+  cursor: pointer;
+  padding: 0 2px;
+  opacity: 0.7;
+}
+.dsp-vcard-info-btn:hover { opacity: 1; }
+.dsp-vcard-meta {
+  font-size: 12px;
+  color: var(--text-muted);
+  display: block;
+  margin-top: 2px;
+}
+.dsp-vcard-right {
+  text-align: right;
+  flex-shrink: 0;
+}
+.dsp-vcard-plate {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  font-family: 'SF Mono', 'Consolas', monospace;
+  display: block;
+}
+.dsp-vcard-vid {
+  font-size: 11px;
+  color: var(--text-muted);
+  display: block;
+  margin-top: 2px;
+}
+
+/* ── Driver Card ─────────────────────────────────────────────────────────────── */
+.dsp-dcard {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: var(--transition);
+  margin-bottom: 8px;
+}
+.dsp-dcard:hover {
+  border-color: #10b981;
+  background: rgba(16,185,129,0.04);
+}
+.dsp-dcard-selected {
+  border-color: #10b981 !important;
+  background: rgba(16,185,129,0.08) !important;
+  box-shadow: 0 0 0 2px rgba(16,185,129,0.25);
+}
+.dsp-dcard-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+.dsp-dcard-body { flex: 1; min-width: 0; }
+.dsp-dcard-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.dsp-dcard-meta {
+  font-size: 12px;
+  color: var(--text-muted);
+  display: block;
+  margin-top: 2px;
+}
+.dsp-dcard-right { flex-shrink: 0; }
+.dsp-dcard-phone {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+/* ── Dimension Modal ─────────────────────────────────────────────────────────── */
+.dsp-dim-modal { max-width: 380px; }
+.dsp-dim-diagram {
+  display: flex;
+  justify-content: center;
+  padding: 24px 0;
+}
+.dsp-dim-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.dsp-dim-top {
+  font-size: 13px;
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+.dsp-dim-middle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.dsp-dim-side {
+  font-size: 13px;
+  color: var(--text-secondary);
+  font-weight: 600;
+  writing-mode: vertical-lr;
+  text-orientation: mixed;
+}
+.dsp-dim-face {
+  width: 100px;
+  height: 80px;
+  border: 2px dashed var(--border-color);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  background: rgba(99,102,241,0.06);
+}
+.dsp-dim-info { text-align: center; margin-top: 12px; }
+.dsp-dim-name { font-size: 15px; font-weight: 700; color: var(--text-primary); }
+.dsp-dim-specs { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+
+/* ── Details form ────────────────────────────────────────────────────────────── */
+.dsp-detail-form { display: flex; flex-direction: column; gap: 16px; }
+
+/* Capacity bar */
+.dsp-capacity-bar-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+}
+.dsp-capacity-bar {
+  flex: 1;
+  height: 6px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.dsp-capacity-fill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 0.3s, background 0.3s;
+}
+.dsp-capacity-text { font-size: 12px; white-space: nowrap; }
+
+/* ── Confirm step ────────────────────────────────────────────────────────────── */
+.dsp-confirm-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 16px;
+}
+.dsp-confirm-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  font-size: 14px;
+  color: var(--text-primary);
+}
+.dsp-confirm-row:last-child { border-bottom: none; }
+.dsp-confirm-label {
+  color: var(--text-muted);
+  font-size: 13px;
+  min-width: 110px;
+}
+
+/* ── Empty state ─────────────────────────────────────────────────────────────── */
+.dsp-empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+/* ── Trip list panel ─────────────────────────────────────────────────────────── */
+.dsp-trips-panel { display: flex; flex-direction: column; gap: 16px; }
+.dsp-trip-stats {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* Trip cards */
+.dsp-trip-list { display: flex; flex-direction: column; gap: 10px; }
+.dsp-trip-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  transition: var(--transition);
+}
+.dsp-trip-card:hover {
+  border-color: rgba(99,102,241,0.3);
+}
+.dsp-trip-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.dsp-trip-id {
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--text-primary);
+  font-family: 'SF Mono', 'Consolas', monospace;
+}
+.dsp-trip-route {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+.dsp-trip-origin { color: var(--text-primary); }
+.dsp-trip-arrow { color: var(--text-muted); }
+.dsp-trip-dest { color: var(--text-primary); }
+.dsp-trip-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 10px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+.dsp-trip-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255,255,255,0.04);
+}
+
+/* Action button variants */
+.btn-primary-sm {
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  padding: 6px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.btn-primary-sm:hover { opacity: 0.9; }
+.btn-success-sm {
+  background: rgba(16,185,129,0.15);
+  color: #10b981;
+  border: 1px solid rgba(16,185,129,0.3);
+  padding: 6px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.btn-success-sm:hover { background: rgba(16,185,129,0.25); }
+
+/* btn-sm additions for trip actions */
+.btn-sm.btn-danger-outline {
+  background: transparent;
+  color: #ef4444;
+  border: 1px solid rgba(239,68,68,0.3);
+}
+.btn-sm.btn-danger-outline:hover { background: rgba(239,68,68,0.1); }
+
+/* ── Responsive ──────────────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .dsp-create-panel { max-width: 100%; max-height: 100vh; border-radius: 0; }
+  .dsp-trip-route { flex-direction: column; align-items: flex-start; gap: 4px; }
+  .dsp-trip-details { flex-direction: column; gap: 4px; }
+}
