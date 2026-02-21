@@ -4,11 +4,14 @@ import toast from 'react-hot-toast';
 import { registerDriver } from '../services/api';
 
 const VEHICLE_CATEGORIES = [
-  { value: 'LIGHT',       label: '🚗 Light Vehicle (Car, Van)' },
-  { value: 'MEDIUM',      label: '🚐 Medium Vehicle (Minibus, Pickup)' },
-  { value: 'HEAVY',       label: '🚛 Heavy Vehicle (Truck, Bus)' },
+  { value: 'BIKE',        label: '🏔️ Bike / Motorcycle (Delivery, Courier)' },
+  { value: 'LIGHT',       label: '🚗 Light Vehicle (Car, Van, Pickup)' },
+  { value: 'MEDIUM',      label: '🚐 Medium Vehicle (Minibus, Truck)' },
+  { value: 'HEAVY',       label: '🚛 Heavy Vehicle (Large Truck, Bus)' },
   { value: 'EXTRA_HEAVY', label: '🏗️ Extra Heavy (Articulated, Special)' },
+  { value: 'CONTAINER',   label: '📦 Container Truck (40FT Trailer)' },
 ];
+
 
 const EyeIcon = ({ open }) => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -263,6 +266,7 @@ const DriverRegisterPage = () => {
             </select>
             {errors.vehicleCategory && <p className="field-error">⚠ {errors.vehicleCategory}</p>}
           </div>
+
 
           {/* ── License Photo Upload ─────────────────────────────────────────── */}
           <p className="form-section-label">📎 License Document (Optional)</p>

@@ -36,4 +36,13 @@ export const loginDriver    = (data) => api.post('/drivers/login', data);
 export const logoutDriver   = ()     => api.post('/drivers/logout');
 export const getDriverMe    = ()     => api.get('/drivers/me');
 
+// ── Admin — Vehicle / Fleet Management ───────────────────────────────────────
+export const adminListVehicles        = (params)       => api.get('/admin/vehicles', { params });
+export const adminCreateVehicle       = (data)         => api.post('/admin/vehicles', data);
+export const adminGetVehicle          = (id)           => api.get(`/admin/vehicles/${id}`);
+export const adminUpdateVehicle       = (id, data)     => api.patch(`/admin/vehicles/${id}`, data);
+export const adminUpdateVehicleStatus = (id, status)   => api.patch(`/admin/vehicles/${id}/status`, { status });
+export const adminAddVehicleService   = (id, data)     => api.post(`/admin/vehicles/${id}/service`, data);
+export const adminGetVehicleHistory   = (id)           => api.get(`/admin/vehicles/${id}/history`);
+
 export default api;

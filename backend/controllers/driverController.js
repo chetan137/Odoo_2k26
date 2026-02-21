@@ -4,7 +4,7 @@ const { generateDriverToken, setDriverTokenCookie, clearDriverTokenCookie, verif
 const { uploadToCloudinary } = require('../config/cloudinary');
 const { validatePassword } = require('../utils/passwordValidator');
 
-const VALID_VEHICLE_CATEGORIES = ['LIGHT', 'MEDIUM', 'HEAVY', 'EXTRA_HEAVY'];
+const VALID_VEHICLE_CATEGORIES = ['BIKE', 'LIGHT', 'MEDIUM', 'HEAVY', 'EXTRA_HEAVY', 'CONTAINER'];
 
 // ─────────────────────────────────────────────────────────────────────────────
 // @route  POST /api/drivers/register
@@ -56,7 +56,7 @@ const registerDriver = async (req, res) => {
 
     // ── 7. Vehicle category ───────────────────────────────────────────────────
     if (!vehicleCategory || !VALID_VEHICLE_CATEGORIES.includes(vehicleCategory.toUpperCase())) {
-      return res.status(400).json({ success: false, message: 'Vehicle category must be LIGHT, MEDIUM, HEAVY, or EXTRA_HEAVY.', field: 'vehicleCategory' });
+      return res.status(400).json({ success: false, message: 'Vehicle category must be LIGHT, MEDIUM, HEAVY, EXTRA_HEAVY, or CONTAINER.', field: 'vehicleCategory' });
     }
 
     // ── 8. Years of experience ────────────────────────────────────────────────
