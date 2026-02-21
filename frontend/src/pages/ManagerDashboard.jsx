@@ -48,6 +48,9 @@ const ManagerDashboard = () => {
           <button className="sidebar-nav-item" onClick={() => navigate('/admin')}>
             <span className="sidebar-nav-icon">🚗</span><span>Driver Overview</span>
           </button>
+          <button className="sidebar-nav-item" onClick={() => navigate('/vehicles')}>
+            <span className="sidebar-nav-icon">🚛</span><span>Vehicle Registry</span>
+          </button>
           <button className="sidebar-nav-item" onClick={() => navigate('/driver/register')}>
             <span className="sidebar-nav-icon">✚</span><span>Register Driver</span>
           </button>
@@ -78,7 +81,7 @@ const ManagerDashboard = () => {
           <div className="dash-modules-grid">
             {modules.map((m) => (
               <div key={m.title} className="module-card"
-                onClick={() => toast(`${m.title} — coming soon!`, { icon: m.icon })}>
+                onClick={() => m.title === 'Vehicle Registry' ? navigate('/vehicles') : toast(`${m.title} — coming soon!`, { icon: m.icon })}>
                 <div className="module-card-icon" style={{ background: m.bg, color: m.color }}>{m.icon}</div>
                 <h3 className="module-card-title">{m.title}</h3>
                 <p className="module-card-desc">{m.desc}</p>

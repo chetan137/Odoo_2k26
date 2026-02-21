@@ -35,10 +35,19 @@ enum DriverStatus {
 }
 
 enum VehicleCategory {
+  BIKE
   LIGHT
   MEDIUM
   HEAVY
   EXTRA_HEAVY
+  CONTAINER
+}
+
+// ─── Vehicle Status Enum ─────────────────────────────────────────────────────
+enum VehicleStatus {
+  AVAILABLE
+  ON_TRIP
+  IN_SHOP
 }
 
 // ─── System Users (ADMIN / MANAGER / DISPATCHER) ─────────────────────────────
@@ -54,6 +63,28 @@ model User {
   updatedAt  DateTime @updatedAt @map("updated_at") @db.Timestamptz
 
   @@map("users")
+}
+
+// ─── Vehicles ─────────────────────────────────────────────────────────────────
+model Vehicle {
+  id                String          @id @default(uuid()) @db.Uuid
+  vehicleId         String          @unique @map("vehicle_id")      // VHL-0001 …
+  vehicleName       String          @map("vehicle_name") @db.VarChar(150)
+  licensePlate      String          @unique @map("license_plate") @db.VarChar(20)
+  category          VehicleCategory
+  maxCapacity       Int             @map("max_capacity")             // kg
+  currentOdometer   Int             @default(0) @map("current_odometer") // km
+  status            VehicleStatus   @default(AVAILABLE)
+  acquisitionCost   Decimal         @map("acquisition_cost") @db.Decimal(12, 2)
+  createdAt         DateTime        @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt         DateTime        @updatedAt @map("updated_at") @db.Timestamptz
+
+  // Relations
+  trips             Trip[]
+
+  @@index([category])
+  @@index([status])
+  @@map("vehicles")
 }
 
 // ─── Drivers (completely separate entity) ─────────────────────────────────────
@@ -86,20 +117,23 @@ model Driver {
 
 // ─── Trips ───────────────────────────────────────────────────────────────────
 model Trip {
-  id          String     @id @default(uuid()) @db.Uuid
-  tripId      String     @unique @map("trip_id") // TRP-0001...
-  origin      String     @db.VarChar(255)
-  destination String     @db.VarChar(255)
-  status      TripStatus @default(PENDING)
-  driverId    String     @map("driver_id") @db.Uuid
-  driver      Driver     @relation(fields: [driverId], references: [id])
-  startTime   DateTime?  @map("start_time") @db.Timestamptz
-  endTime     DateTime?  @map("end_time") @db.Timestamptz
-  createdAt   DateTime   @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt   DateTime   @updatedAt @map("updated_at") @db.Timestamptz
+  id          String      @id @default(uuid()) @db.Uuid
+  tripId      String      @unique @map("trip_id")       // TRP-0001...
+  origin      String      @db.VarChar(255)
+  destination String      @db.VarChar(255)
+  status      TripStatus  @default(PENDING)
+  driverId    String      @map("driver_id") @db.Uuid
+  driver      Driver      @relation(fields: [driverId], references: [id])
+  vehicleId   String?     @map("vehicle_id") @db.Uuid
+  vehicle     Vehicle?    @relation(fields: [vehicleId], references: [id])
+  startTime   DateTime?   @map("start_time") @db.Timestamptz
+  endTime     DateTime?   @map("end_time") @db.Timestamptz
+  createdAt   DateTime    @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt   DateTime    @updatedAt @map("updated_at") @db.Timestamptz
 
   @@index([tripId])
   @@index([status])
   @@index([driverId])
+  @@index([vehicleId])
   @@map("trips")
 }

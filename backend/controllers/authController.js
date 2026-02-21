@@ -71,8 +71,8 @@ const login = async (req, res) => {
   try {
     const { email, password, role } = req.body;
 
-    // 1. role must be MANAGER or DISPATCHER (ADMIN uses secure back-channel)
-    const ALLOWED_LOGIN_ROLES = ['MANAGER', 'DISPATCHER'];
+    // 1. role must be MANAGER, DISPATCHER, or ADMIN
+    const ALLOWED_LOGIN_ROLES = ['MANAGER', 'DISPATCHER', 'ADMIN'];
     if (!role || !ALLOWED_LOGIN_ROLES.includes(role.toUpperCase())) {
       return res.status(400).json({
         success: false,

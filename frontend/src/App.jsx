@@ -20,6 +20,10 @@ import DriverRegisterPage  from './pages/DriverRegisterPage';
 import DriverLoginPage     from './pages/DriverLoginPage';
 import DriverDashboardPage from './pages/DriverDashboardPage';
 
+// ── Feature pages ───────────────────────────────────────────────────────────────
+import VehiclePage  from './features/vehicles/VehiclePage';
+import DispatchPage from './features/dispatch/DispatchPage';
+
 const TOAST_STYLE = {
   background: '#1a1a2e',
   color: '#f1f1f8',
@@ -76,6 +80,18 @@ const App = () => {
           {/* Generic /dashboard (fallback — role-aware) */}
           <Route path="/dashboard"
             element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
+
+          {/* ────────────────────────────────────────────────────────────────────
+              SHARED FEATURE PAGES — accessible to multiple roles
+          ─────────────────────────────────────────────────────────────────────── */}
+
+          {/* VEHICLE REGISTRY → /vehicles — ADMIN, MANAGER, DISPATCHER */}
+          <Route path="/vehicles"
+            element={<ProtectedRoute allowedRoles={['ADMIN', 'MANAGER', 'DISPATCHER']}><VehiclePage /></ProtectedRoute>} />
+
+          {/* TRIP DISPATCH → /dispatch — ADMIN, MANAGER, DISPATCHER */}
+          <Route path="/dispatch"
+            element={<ProtectedRoute allowedRoles={['ADMIN', 'MANAGER', 'DISPATCHER']}><DispatchPage /></ProtectedRoute>} />
 
           {/* ────────────────────────────────────────────────────────────────────
               DRIVER ROUTES — no system auth, uses separate driver JWT
