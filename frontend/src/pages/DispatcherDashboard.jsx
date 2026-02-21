@@ -37,7 +37,10 @@ const DispatcherDashboard = () => {
           <button className="sidebar-nav-item sidebar-nav-active">
             <span className="sidebar-nav-icon">📊</span><span>Dashboard</span>
           </button>
-          <button className="sidebar-nav-item" onClick={() => toast('Dispatch module — coming soon!', { icon: '🗺️' })}>
+          <button className="sidebar-nav-item" onClick={() => navigate('/vehicles')}>
+            <span className="sidebar-nav-icon">🚛</span><span>Vehicle Registry</span>
+          </button>
+          <button className="sidebar-nav-item" onClick={() => navigate('/dispatch')}>
             <span className="sidebar-nav-icon">🗺️</span><span>Dispatch</span>
           </button>
           <button className="sidebar-nav-item" onClick={() => navigate('/driver/register')}>
@@ -68,17 +71,23 @@ const DispatcherDashboard = () => {
         <section className="dash-modules">
           <h2 className="dash-section-title">Dispatch Operations</h2>
           <div className="dash-modules-grid">
-            <div className="module-card" onClick={() => toast('Dispatch module — coming soon!', { icon: '🗺️' })}>
+            <div className="module-card" onClick={() => navigate('/dispatch')}>
               <div className="module-card-icon" style={{ background:'rgba(16,185,129,0.1)', color:'#10b981' }}>🗺️</div>
               <h3 className="module-card-title">Active Dispatches</h3>
               <p className="module-card-desc">View and manage current driver assignments and trip status.</p>
               <span className="module-card-arrow" style={{ color:'#10b981' }}>→</span>
             </div>
+            <div className="module-card" onClick={() => navigate('/vehicles')}>
+              <div className="module-card-icon" style={{ background:'rgba(99,102,241,0.1)', color:'#6366f1' }}>🚛</div>
+              <h3 className="module-card-title">Vehicle Registry</h3>
+              <p className="module-card-desc">View fleet vehicles, check availability and track asset status.</p>
+              <span className="module-card-arrow" style={{ color:'#6366f1' }}>→</span>
+            </div>
             <div className="module-card" onClick={() => toast('Trip history — coming soon!', { icon: '📋' })}>
-              <div className="module-card-icon" style={{ background:'rgba(99,102,241,0.1)', color:'#6366f1' }}>📋</div>
+              <div className="module-card-icon" style={{ background:'rgba(245,158,11,0.1)', color:'#f59e0b' }}>📋</div>
               <h3 className="module-card-title">Trip History</h3>
               <p className="module-card-desc">Review all completed trips and delivery records.</p>
-              <span className="module-card-arrow" style={{ color:'#6366f1' }}>→</span>
+              <span className="module-card-arrow" style={{ color:'#f59e0b' }}>→</span>
             </div>
             <div className="module-card" onClick={() => navigate('/driver/register')}>
               <div className="module-card-icon" style={{ background:'rgba(245,158,11,0.1)', color:'#f59e0b' }}>🚗</div>

@@ -959,6 +959,9 @@ const AdminPage = () => {
           <button className="sidebar-nav-item" onClick={() => navigate('/dashboard')}>
             <span className="sidebar-nav-icon">📊</span><span>Overview</span>
           </button>
+          <button className="sidebar-nav-item" onClick={() => navigate('/vehicles')}>
+            <span className="sidebar-nav-icon">🚛</span><span>Vehicle Registry</span>
+          </button>
         </nav>
 
         <button className="sidebar-logout" onClick={handleLogout}>
